@@ -1,0 +1,48 @@
+@use '../../../assets/styles/_variables' as *;
+@use '../../../assets/styles/_mixins' as *;
+
+// Common styles for lists (StationResults and RecentSearches)
+.station-search {
+  &__stations-list {
+    @include flex-column;
+    gap: $spacing-xs;
+    margin: 1rem 0;
+    max-height: 300px;
+    overflow-y: auto;
+  }
+
+  // Common list container styling
+  &__list-container {
+    margin-top: $spacing-md;
+    background-color: white;
+    border-radius: $border-radius;
+    padding: $spacing-sm;
+  }
+
+  &__list-title {
+    font-size: 1.2rem;
+    margin-bottom: $spacing-sm;
+    font-weight: 500;
+    color: $text-secondary;
+  }
+
+  &__station-item {
+    width: 100%;
+    text-align: left;
+    padding: $spacing-md;
+    background: white;
+    border: 1px solid $border-color;
+    border-radius: $border-radius;
+    cursor: pointer;
+    transition: $transition-default;
+
+    &:hover {
+      background-color: $background-light;
+    }
+
+    &--selected {
+      background-color: #007bff;
+      color: white;
+    }
+  }
+} 

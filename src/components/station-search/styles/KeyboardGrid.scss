@@ -1,0 +1,74 @@
+.keyboard-grid {
+  &__letters {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  &__row {
+    display: flex;
+    gap: 0.75rem;
+    justify-content: center;
+  }
+
+  &__button {
+    width: 4rem;
+    height: 4rem;
+    border: none;
+    border-radius: 0.25rem;
+    background: #e0e0e0;
+    font-size: 1.6rem;
+    cursor: pointer;
+
+    &:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    &--active {
+      background: #2196f3;
+      color: white;
+
+      &:hover {
+        background: #1976d2;
+      }
+    }
+
+    &:hover:not(:disabled) {
+      background: #bdbdbd;
+    }
+  }
+
+  &__actions {
+    display: flex;
+    gap: 0.75rem;
+    margin-top: 0.75rem;
+    
+    .keyboard-grid__button {
+      flex: 1;
+      min-width: 120px;
+      padding: 1rem;
+      font-size: 1.8rem;
+      line-height: 1;
+      width: auto;
+      height: auto;
+      
+      &--action {
+        background: #f0f0f0;
+        
+        &:hover:not(:disabled) {
+          background: #e0e0e0;
+        }
+
+        &.keyboard-grid__button--active {
+          background: #2196f3;
+          color: white;
+
+          &:hover {
+            background: #1976d2;
+          }
+        }
+      }
+    }
+  }
+} 
