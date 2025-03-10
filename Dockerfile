@@ -21,7 +21,7 @@ COPY . .
 RUN npm run build
 
 # Production stage
-FROM nginx:stable-alpine as production-stage
+FROM nginx:1.24.0-alpine as production-stage
 
 # Add security headers
 RUN echo "add_header X-Frame-Options 'DENY';" >> /etc/nginx/conf.d/default.conf && \

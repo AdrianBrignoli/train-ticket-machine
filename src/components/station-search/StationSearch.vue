@@ -32,7 +32,7 @@ const {
   selectedStation,
   errorMessage,
   keyboardLayout,
-  appendLetter, 
+  handleAppendLetter, 
   handleStationSelect,
   handleCheckoutClick,
   handleSpecialKey,
@@ -62,7 +62,7 @@ const {
           :search-result="searchResult"
           :has-input="searchTerm.length > 0"
           :layout="keyboardLayout"
-          @letter-click="appendLetter"
+          @letter-click="handleAppendLetter"
           @special-key="handleSpecialKey"
           class="station-search__keyboard"
         />

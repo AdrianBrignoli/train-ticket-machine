@@ -8,7 +8,7 @@ import { useKeyboardLayout } from '@/components/station-search/composables/misc/
 
 /**
  * Composable for initializing the station search application
- * 
+ *
  * @remarks
  * Handles the initialization sequence:
  * 1. Generates and sets unique user ID
@@ -16,13 +16,13 @@ import { useKeyboardLayout } from '@/components/station-search/composables/misc/
  * 3. Sets keyboard layout based on test variant
  * 4. Loads station data from API
  * 5. Initializes recent searches from storage
- * 
+ *
  * @returns Initialization methods
  * @property {Function} initialize - Starts the initialization sequence
- * 
+ *
  * @example
  * const { initialize } = useStationInitializer();
- * 
+ *
  * // Initialize app
  * await initialize();
  */
@@ -33,29 +33,30 @@ export function useStationInitializer() {
 
   async function initializeStations() {
     store.setLoading(true);
-    try {      
-      const response = await stationApi.getStations();            
+    try {
+      const response = await stationApi.getStations();
       if (response.data.length === 0) {
         throw new Error('No stations available');
       }
       store.setStations(response.data);
       handleSearch('');
     } catch (error) {
+      console.error('Error initializing stations:', error);
       throw error;
     } finally {
       store.setLoading(false);
     }
   }
 
-  async function initialize() {    
-    store.setUserId(generateUserId());      
+  async function initialize() {
+    store.setUserId(generateUserId());
     const { variant } = await useABTesting('keypad_layout_experiment');
     store.setKeyboardLayout(useKeyboardLayout(variant.value).keyboardLayout);
     await initializeStations();
-    initializeRecentSearches();    
+    initializeRecentSearches();
   }
 
   return {
-    initialize
+    initialize,
   };
-} 
+}

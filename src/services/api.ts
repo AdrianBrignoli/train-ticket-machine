@@ -16,8 +16,8 @@ const apiClient = axios.create({
   baseURL: 'https://raw.githubusercontent.com/abax-as',
   timeout: 5000,
   headers: {
-    'Content-Type': 'application/json'
-  }
+    'Content-Type': 'application/json',
+  },
 });
 
 interface ApiResponse<T> {
@@ -29,18 +29,19 @@ interface ApiResponse<T> {
 export const stationApi = {
   async getStations(): Promise<ApiResponse<Station[]>> {
     try {
-      const response = await apiClient.get<Station[]>('/coding-challenge/master/station_codes.json');      
-      
+      const response = await apiClient.get<Station[]>(
+        '/coding-challenge/master/station_codes.json'
+      );
+
       return {
         success: true,
-        data: response.data
+        data: response.data,
       };
     } catch (error) {
-      
       if (error instanceof ApiError) {
         throw error;
       }
-      
+
       if (axios.isAxiosError(error)) {
         throw new ApiError(
           error.response?.data?.message || 'Failed to fetch stations',
@@ -50,5 +51,5 @@ export const stationApi = {
       }
       throw new ApiError('An unexpected error occurred');
     }
-  }
+  },
 };

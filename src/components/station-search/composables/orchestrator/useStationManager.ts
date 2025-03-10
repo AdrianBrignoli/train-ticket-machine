@@ -8,7 +8,7 @@ import { storeToRefs } from 'pinia';
 
 /**
  * Orchestrator composable for the station search feature
- * 
+ *
  * @remarks
  * Architecture Decision Records:
  * 1. Acts as a facade pattern, coordinating between:
@@ -18,14 +18,14 @@ import { storeToRefs } from 'pinia';
  *    - Navigation
  * 2. Centralizes complex interaction flows
  * 3. Keeps components purely presentational
- * 
+ *
  * @description
  * This composable:
  * - Manages user interactions (keyboard input, station selection)
  * - Coordinates between different services (search, analytics, storage)
  * - Handles navigation flows (checkout)
  * - Provides reactive state to components
- * 
+ *
  * @example
  * const {
  *   searchTerm,
@@ -33,7 +33,7 @@ import { storeToRefs } from 'pinia';
  *   appendLetter,
  *   handleStationSelect
  * } = useStationManager();
- * 
+ *
  * @returns {Object} State and handlers for station search interface
  * @property {Ref<string>} searchTerm - Current search input
  * @property {Ref<SearchResult>} searchResult - Filtered stations and available characters
@@ -42,13 +42,13 @@ import { storeToRefs } from 'pinia';
  */
 export function useStationManager() {
   const store = useStationStore();
-  const router = useRouter();  
+  const router = useRouter();
   const { handleSearch } = useStationSearch();
-  const {     
+  const {
     trackSearchCompletion,
     trackStationSelect,
     trackSpecialKeyUse,
-    trackError 
+    trackError,
   } = useStationSearchAnalytics();
   const { addToRecentSearches } = useRecentSearches();
   const {
@@ -58,45 +58,46 @@ export function useStationManager() {
     searchResult,
     recentSearches,
     selectedStation,
-    keyboardLayout
+    keyboardLayout,
   } = storeToRefs(store);
-    
+
   function handleCheckout(station: Station) {
     addToRecentSearches(station);
     return {
       stationCode: station.stationCode,
-      stationName: station.stationName
+      stationName: station.stationName,
     };
   }
-    
-  function appendLetter(letter: string) {    
-    const newTerm = store.searchTerm + letter;    
+
+  function handleAppendLetter(letter: string) {
+    const newTerm = store.searchTerm + letter;
     handleSearch(newTerm);
   }
 
   function handleSpecialKey(key: string) {
     trackSpecialKeyUse(key, { currentSearch: store.searchTerm });
-    const newTerm = key === '⌫' 
-      ? store.searchTerm.slice(0, -1)
-      : store.searchTerm + (key === '␣' ? ' ' : key);
+    const newTerm =
+      key === '⌫'
+        ? store.searchTerm.slice(0, -1)
+        : store.searchTerm + (key === '␣' ? ' ' : key);
     handleSearch(newTerm);
   }
 
   function handleStationSelect(station: Station) {
     trackStationSelect(station, store.searchTerm);
-    store.setSelectedStation(station);    
-    store.setErrorMessage('');    
+    store.setSelectedStation(station);
+    store.setErrorMessage('');
   }
 
   function handleCheckoutClick() {
     if (!store.selectedStation) {
       trackError(new Error('No station selected'));
-      store.setErrorMessage('Please select a station first');;
+      store.setErrorMessage('Please select a station first');
       return;
     }
 
     trackSearchCompletion(store.searchTerm, store.filteredStations);
-    handleCheckout(store.selectedStation);    
+    handleCheckout(store.selectedStation);
     router.push({ name: 'checkout' });
   }
 
@@ -106,16 +107,16 @@ export function useStationManager() {
     loading,
     errorMessage,
     keyboardLayout,
-    
+
     // Search Results
     searchResult,
     recentSearches,
     selectedStation,
-    
+
     // Actions
-    appendLetter,
+    handleAppendLetter,
     handleSpecialKey,
     handleStationSelect,
-    handleCheckoutClick,    
+    handleCheckoutClick,
   };
-} 
+}

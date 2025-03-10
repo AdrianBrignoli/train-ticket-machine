@@ -1,7 +1,7 @@
-type EventName = 
-  | 'LETTER_CLICK' 
-  | 'STATION_SELECT' 
-  | 'SEARCH_ERROR' 
+type EventName =
+  | 'LETTER_CLICK'
+  | 'STATION_SELECT'
+  | 'SEARCH_ERROR'
   | 'TOGGLE_DISPLAY'
   | 'COMPONENT_MOUNT'
   | 'COMPONENT_UNMOUNT'
@@ -24,7 +24,7 @@ interface PerformanceData {
 class AnalyticsService {
   private static instance: AnalyticsService;
   private performanceData: Map<string, PerformanceData> = new Map();
-  
+
   private constructor() {
     // Initialize analytics (could be Google Analytics, Mixpanel, etc.)
   }
@@ -40,10 +40,9 @@ class AnalyticsService {
     const event: TrackingEvent = {
       name,
       properties,
-      timestamp: Date.now()
+      timestamp: Date.now(),
     };
 
-    // Log to console in development
     if (import.meta.env.DEV) {
       console.log('Analytics Event:', event);
     }
@@ -55,7 +54,7 @@ class AnalyticsService {
   startTracking(componentId: string) {
     this.performanceData.set(componentId, {
       startTime: performance.now(),
-      component: componentId
+      component: componentId,
     });
   }
 
@@ -63,13 +62,13 @@ class AnalyticsService {
     const start = this.performanceData.get(componentId);
     if (start) {
       const duration = performance.now() - start.startTime;
-      this.trackEvent('COMPONENT_MOUNT', { 
+      this.trackEvent('COMPONENT_MOUNT', {
         component: start.component,
-        loadTime: duration 
+        loadTime: duration,
       });
       this.performanceData.delete(componentId);
     }
   }
 }
 
-export const analytics = AnalyticsService.getInstance(); 
+export const analytics = AnalyticsService.getInstance();
