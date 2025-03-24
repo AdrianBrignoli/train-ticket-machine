@@ -13,7 +13,7 @@ export class ApiError extends Error {
 }
 
 const apiClient = axios.create({
-  baseURL: 'https://raw.githubusercontent.com/abax-as',
+  baseURL: 'https://API-URL-GOES-HERE.com',
   timeout: 5000,
   headers: {
     'Content-Type': 'application/json',
